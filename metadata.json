@@ -1,0 +1,5 @@
+{
+  "name": "AlphaFlip",
+  "description": "An interactive, aesthetically pleasing alphabet card flip application featuring smooth 3D animations and a responsive grid layout.",
+  "requestFramePermissions": []
+}
