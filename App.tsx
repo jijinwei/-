@@ -10,6 +10,7 @@ export default function App() {
   // The cards array is constant based on user requirement, but we keep state in case shuffle is needed later.
   // Note: User requested a specific order, so we default to ALPHABET_CARDS.
   const [cards, setCards] = useState<string[]>(ALPHABET_CARDS);
+  const [logoError, setLogoError] = useState(false);
 
   const handleCardClick = (letter: string) => {
     setPoppedCards((prev) => ({
@@ -50,11 +51,19 @@ export default function App() {
             {/* Logo / Title */}
             <div className="flex items-center gap-3 self-start md:self-auto">
               <div className="w-10 h-10 sm:w-12 sm:h-12 flex flex-shrink-0 items-center justify-center rounded-xl overflow-hidden shadow-lg shadow-blue-500/20 border border-white/10 bg-white/5">
-                <img 
-                  src="public/logo.png" 
-                  alt="三英国际 Logo" 
-                  className="w-full h-full object-contain p-1"
-                />
+                {!logoError ? (
+                  <img 
+                    src="/logo.png" 
+                    alt="三英国际 Logo" 
+                    className="w-full h-full object-contain p-1"
+                    onError={() => setLogoError(true)}
+                  />
+                ) : (
+                  // Fallback SVG Logo (Stylized 'E')
+                  <svg viewBox="0 0 64 64" className="w-full h-full p-2 text-white fill-current" xmlns="http://www.w3.org/2000/svg">
+                     <path d="M12 8C9.79 8 8 9.79 8 12V52C8 54.21 9.79 56 12 56H52C54.21 56 56 54.21 56 52V42H40V36H54V28H40V22H56V12C56 9.79 54.21 8 52 8H12ZM20 20H30V44H20V20Z" fillRule="evenodd" clipRule="evenodd" opacity="0.9"/>
+                  </svg>
+                )}
               </div>
               <div className="flex flex-col">
                 <h1 className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300 tracking-tight leading-tight">
