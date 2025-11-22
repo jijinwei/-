@@ -1,47 +1,57 @@
+
 import React from 'react';
 import { CardProps } from '../types';
+import { BALLOON_COLORS } from '../constants';
 
-export const Card: React.FC<CardProps> = ({ letter, isFlipped, onClick }) => {
+export const Card: React.FC<CardProps> = ({ letter, isFlipped, index, onClick }) => {
+  // isFlipped true means the balloon is POPPED (revealed)
+  // isFlipped false means the balloon is VISIBLE
+  
+  const colorClass = BALLOON_COLORS[index % BALLOON_COLORS.length];
+  
+  // Randomize float delay slightly for natural look
+  const floatDelay = { animationDelay: `${(index % 5) * 0.2}s` };
+
   return (
     <div 
-      className="group perspective-1000 w-full aspect-[3/4] cursor-pointer"
-      onClick={onClick}
+      className="relative w-full aspect-[4/5] flex items-center justify-center"
     >
-      <div 
-        className={`relative w-full h-full transition-all duration-700 preserve-3d shadow-xl rounded-2xl ${
-          isFlipped ? 'rotate-y-180' : ''
-        } group-hover:scale-[1.02] active:scale-95`}
-      >
-        {/* Front of Card (Face Down - Hidden State) */}
-        <div className="absolute inset-0 w-full h-full backface-hidden rounded-2xl overflow-hidden border border-white/10 bg-slate-800">
-          {/* Background Gradient/Pattern */}
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 to-purple-700 opacity-90"></div>
-          
-          {/* Decorative Pattern overlay */}
-          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_2px_2px,_rgba(255,255,255,0.4)_1px,_transparent_0)] bg-[length:20px_20px]"></div>
-          
-          {/* Center Icon/Design */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-white/30 flex items-center justify-center backdrop-blur-sm bg-white/10 group-hover:bg-white/20 transition-colors">
-              <span className="text-white/80 font-semibold text-lg sm:text-2xl">?</span>
-            </div>
-          </div>
-          
-          {/* Card Shine Effect */}
-          <div className="absolute -inset-full top-0 block h-full w-1/2 -skew-x-12 bg-gradient-to-r from-transparent to-white opacity-10 group-hover:animate-shine" />
-        </div>
+      {/* THE REVEALED LETTER (Background Layer) */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="text-5xl sm:text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 select-none drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]">
+          {letter}
+        </span>
+      </div>
 
-        {/* Back of Card (Face Up - Revealed State) */}
-        <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-2xl overflow-hidden bg-white border-2 border-indigo-500/50 shadow-[0_0_30px_rgba(99,102,241,0.2)]">
-          <div className="flex items-center justify-center h-full w-full bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-indigo-50 via-white to-white">
-            <span className="text-6xl sm:text-7xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-br from-indigo-600 to-purple-600 select-none drop-shadow-sm">
-              {letter}
-            </span>
-          </div>
+      {/* THE BALLOON (Foreground Layer) */}
+      {/* Use animate-pop when flipped (popped), animate-float when visible */}
+      <div 
+        onClick={!isFlipped ? onClick : undefined}
+        className={`
+          absolute inset-0 cursor-pointer z-10
+          ${isFlipped ? 'animate-pop pointer-events-none' : 'animate-float hover:scale-105 transition-transform duration-300'}
+        `}
+        style={!isFlipped ? floatDelay : {}}
+      >
+        <div className="relative w-full h-full flex flex-col items-center">
           
-          {/* Small corner indicators */}
-          <div className="absolute top-2 left-3 text-sm font-bold text-slate-300">{letter}</div>
-          <div className="absolute bottom-2 right-3 text-sm font-bold text-slate-300 rotate-180">{letter}</div>
+          {/* Balloon Body */}
+          <div className={`
+            w-[90%] h-[85%] rounded-[50%_50%_50%_50%/40%_40%_60%_60%] 
+            shadow-[inset_-10px_-10px_24px_rgba(0,0,0,0.3),_5px_5px_15px_rgba(0,0,0,0.2)]
+            bg-gradient-to-br ${colorClass}
+            relative
+          `}>
+            {/* Highlight / Reflection */}
+            <div className="absolute top-[20%] left-[20%] w-4 h-8 bg-white/30 rounded-full -rotate-12 blur-[1px]"></div>
+            <div className="absolute top-[22%] left-[25%] w-1 h-2 bg-white/60 rounded-full -rotate-12"></div>
+          </div>
+
+          {/* Balloon Knot */}
+          <div className={`w-4 h-3 -mt-1 balloon-knot bg-gradient-to-b ${colorClass}`}></div>
+
+          {/* Balloon String */}
+          <div className="w-0.5 h-12 bg-white/40 -mt-0.5 origin-top animate-[swing_3s_ease-in-out_infinite]"></div>
         </div>
       </div>
     </div>
