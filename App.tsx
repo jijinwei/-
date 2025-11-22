@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Card } from './components/Card';
 import { ALPHABET_CARDS } from './constants';
-import { RotateCcw, Eye, EyeOff, Globe } from 'lucide-react';
+import { RotateCcw, Eye, EyeOff } from 'lucide-react';
 
 export default function App() {
   // State to track which cards are popped (flipped). Key is the letter, value is boolean.
@@ -48,44 +48,53 @@ export default function App() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             
             {/* Logo / Title */}
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
-                <Globe className="text-white w-6 h-6" />
+            <div className="flex items-center gap-3 self-start md:self-auto">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 flex flex-shrink-0 items-center justify-center rounded-xl overflow-hidden shadow-lg shadow-blue-500/20 border border-white/10 bg-white/5">
+                <img 
+                  src="public/logo.png" 
+                  alt="三英国际 Logo" 
+                  className="w-full h-full object-contain p-1"
+                />
               </div>
-              <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300 tracking-tight">
-                三英国际
-              </h1>
+              <div className="flex flex-col">
+                <h1 className="text-xl sm:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300 tracking-tight leading-tight">
+                  三英国际
+                </h1>
+                <span className="text-[10px] sm:text-xs text-slate-400 font-medium tracking-wide uppercase">
+                  Interactive Learning
+                </span>
+              </div>
             </div>
 
             {/* Controls */}
-            <div className="flex items-center gap-2 bg-slate-900/80 p-1.5 rounded-full border border-white/10 shadow-inner">
+            <div className="flex items-center gap-2 bg-slate-900/80 p-1.5 rounded-full border border-white/10 shadow-inner w-full md:w-auto justify-center md:justify-end">
               <button
                 onClick={handlePopAll}
-                className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-slate-300 hover:text-white hover:bg-white/10 transition-all active:scale-95"
+                className="flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/10 transition-all active:scale-95"
                 title="Pop All Balloons"
               >
-                <Eye className="w-4 h-4" />
-                <span className="hidden sm:inline">全部显示</span>
+                <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="whitespace-nowrap">全部显示</span>
               </button>
               
               <button
                 onClick={handleInflateAll}
-                className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-slate-300 hover:text-white hover:bg-white/10 transition-all active:scale-95"
+                className="flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-slate-300 hover:text-white hover:bg-white/10 transition-all active:scale-95"
                 title="Restore All Balloons"
               >
-                <EyeOff className="w-4 h-4" />
-                <span className="hidden sm:inline">全部隐藏</span>
+                <EyeOff className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="whitespace-nowrap">全部隐藏</span>
               </button>
 
               <div className="w-px h-6 bg-white/10 mx-1"></div>
 
               <button
                 onClick={handleReset}
-                className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium text-rose-300 hover:text-rose-200 hover:bg-rose-500/10 transition-all active:scale-95"
+                className="flex items-center gap-2 px-4 py-2 rounded-full text-xs sm:text-sm font-medium text-rose-300 hover:text-rose-200 hover:bg-rose-500/10 transition-all active:scale-95"
                 title="Reset"
               >
-                <RotateCcw className="w-4 h-4" />
-                <span className="hidden sm:inline">重置</span>
+                <RotateCcw className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="whitespace-nowrap">重置</span>
               </button>
             </div>
           </div>
